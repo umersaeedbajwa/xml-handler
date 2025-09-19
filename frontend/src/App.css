@@ -1,0 +1,133 @@
+/* Custom styles for the Campaign Manager app */
+.ant-layout-sider {
+  background: #fff !important;
+  position: fixed !important;
+  height: 100vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.ant-layout-sider-trigger {
+  display: none !important;
+}
+
+.ant-menu-light {
+  background: transparent;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Sticky sidebar styles */
+.ant-layout {
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .ant-layout {
+    margin-left: 0 !important;
+  }
+  
+  .ant-layout-sider {
+    display: none !important;
+  }
+}
+
+/* Sticky header */
+.ant-layout-header {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-menu .ant-menu-item {
+  margin: 4px 0;
+  border-radius: 8px;
+  height: 40px;
+  line-height: 40px;
+  font-weight: 500;
+}
+
+.dashboard-menu .ant-menu-item-selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+}
+
+.dashboard-menu .ant-menu-item-selected .anticon {
+  color: white !important;
+}
+
+.dashboard-menu .ant-menu-item:hover {
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.ant-card {
+  border-radius: 12px;
+}
+
+.ant-card-head {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 24px 0;
+}
+
+.ant-card-body {
+  padding: 20px 24px;
+}
+
+.ant-statistic-content {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.ant-progress-line {
+  margin: 0;
+}
+
+.ant-input {
+  border-radius: 8px;
+}
+
+.ant-btn {
+  border-radius: 8px;
+}
+
+.ant-layout-header {
+  line-height: 64px;
+  padding: 0 24px;
+}
+
+.chart-container {
+  height: 250px;
+}
+
+.stat-card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
