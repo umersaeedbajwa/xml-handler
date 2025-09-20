@@ -12,16 +12,16 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
-# @asynccontextmanager
-# async def lifespan(app: FastAPI):
-#     # Startup
-#     await baseDB.connect()
-#     yield
-#     # Shutdown
-#     await baseDB.disconnect()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    await baseDB.connect()
+    yield
+    # Shutdown
+    await baseDB.disconnect()
     
 app = FastAPI(
-    # lifespan=lifespan,
+    lifespan=lifespan,
     title="XML Handler API",dependencies=[], description="API for managing XML data", version="1.0.0")
 
 # Configure CORS
