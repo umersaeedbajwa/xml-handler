@@ -23,14 +23,12 @@
 --	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --	POSSIBILITY OF SUCH DAMAGE.
 
-
 --include config.lua
 	require "functions.config";
 
 --get the argv values
 	script_name = argv[0];
 	app_name = argv[1];
-	scripts_dir = "/usr/local/freeswitch/scripts"
 --example use command
 	--luarun app.lua app_name 'a' 'b 123' 'c'
 
