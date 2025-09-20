@@ -24,9 +24,6 @@
 --	POSSIBILITY OF SUCH DAMAGE.
 
 --general functions
-
-	scripts_dir = "/root/xml-handler/scripts"
-	_G.scripts_dir = scripts_dir
 	
 	require "functions.trim";
 	require "functions.file_exists";
