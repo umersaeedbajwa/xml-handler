@@ -25,7 +25,7 @@
 
 	scripts_dir = "/root/xml-handler/scripts"
 	_G.scripts_dir = scripts_dir
-	
+
 --include config.lua
 	require "functions.config";
 
@@ -46,4 +46,4 @@
 
 --route the request to the application
 	freeswitch.consoleLog("notice", "["..app_name.."]".. scripts_dir .. "/app/" .. app_name .. "/index.lua\n");
-	loadfile(scripts_dir .. "/index.lua")(argv);
+	dofile(scripts_dir .. "/index.lua")(argv);
