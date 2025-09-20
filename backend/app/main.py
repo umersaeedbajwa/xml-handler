@@ -16,8 +16,7 @@ logging.basicConfig(
 async def lifespan(app: FastAPI):
     # Startup
     await baseDB.connect()
-    
-    
+    yield
     # Shutdown
     await baseDB.disconnect()
     
