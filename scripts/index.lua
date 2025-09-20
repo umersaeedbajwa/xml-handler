@@ -27,6 +27,7 @@
 
 	scripts_dir = "/root/xml-handler/scripts"
 	_G.scripts_dir = scripts_dir
+	package.path = package.path .. ";" .. scripts_dir .. "/?.lua;" .. scripts_dir .. "/?/init.lua"
 	require "functions.trim";
 	require "functions.file_exists";
 	require "functions.explode";
