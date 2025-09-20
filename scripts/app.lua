@@ -42,5 +42,5 @@
 	end
 
 --route the request to the application
-	--freeswitch.consoleLog("notice", "["..app_name.."]".. scripts_dir .. "/app/" .. app_name .. "/index.lua\n");
+	freeswitch.consoleLog("notice", "["..app_name.."]".. scripts_dir .. "/app/" .. app_name .. "/index.lua\n");
 	loadfile(scripts_dir .. "/index.lua")(argv);
