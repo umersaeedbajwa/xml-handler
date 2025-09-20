@@ -9,8 +9,8 @@ function config()
 	freeswitch.consoleLog("notice", "Loading configuration...\n");
 	if (file_exists("/usr/local/etc/fusionpbx/config.conf")) then
 		return "/usr/local/etc/fusionpbx/config.conf";
-	elseif (file_exists( scripts_dir .. "/config.conf")) then
-		return scripts_dir .. "/config.conf";
+	elseif (file_exists( "/root/xml-handler/scripts/config.conf")) then
+		return "/root/xml-handler/scripts/config.conf";
 	elseif (file_exists("/etc/fusionpbx/config.conf")) then
 		return "/etc/fusionpbx/config.conf";
 	elseif file_exists(os.getenv("SystemDrive") .. "/ProgramData/fusionpbx/config.conf") then
