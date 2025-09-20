@@ -13,7 +13,7 @@ class Database:
     
     async def connect(self):
         """Create database connection pool"""
-        print("Connecting to database...")
+        print(f"Connecting to database... {DATABASE_URL}")
         self.pool = await asyncpg.create_pool(DATABASE_URL)
     
     async def disconnect(self):
