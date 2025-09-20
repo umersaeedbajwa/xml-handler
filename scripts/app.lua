@@ -23,9 +23,6 @@
 --	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --	POSSIBILITY OF SUCH DAMAGE.
 
-	scripts_dir = "/root/xml-handler/scripts"
-	_G.scripts_dir = scripts_dir
-
 --include config.lua
 	require "functions.config";
 
