@@ -43,4 +43,4 @@
 
 --route the request to the application
 	freeswitch.consoleLog("notice", "["..app_name.."]".. scripts_dir .. "/app/" .. app_name .. "/index.lua\n");
-	dofile(scripts_dir .. "/index.lua")(argv);
+	loadfile(scripts_dir .. "/index.lua")(argv);
