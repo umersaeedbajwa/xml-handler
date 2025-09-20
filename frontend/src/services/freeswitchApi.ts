@@ -13,135 +13,202 @@ const BASE_URL = '/api/freeswitch';
 
 // Domain API
 export const domainApi = {
-  getAll: (): Promise<Domain[]> => 
-    api.get(`${BASE_URL}/domains`),
+  getAll: async (): Promise<Domain[]> => {
+    const response = await api.get(`${BASE_URL}/domains`);
+    return response.data;
+  },
   
-  getById: (id: string): Promise<Domain> => 
-    api.get(`${BASE_URL}/domains/${id}`),
+  getById: async (id: string): Promise<Domain> => {
+    const response = await api.get(`${BASE_URL}/domains/${id}`);
+    return response.data;
+  },
   
-  create: (data: DomainCreate): Promise<Domain> => 
-    api.post(`${BASE_URL}/domains`, data),
+  create: async (data: DomainCreate): Promise<Domain> => {
+    const response = await api.post(`${BASE_URL}/domains`, data);
+    return response.data;
+  },
   
-  update: (id: string, data: DomainUpdate): Promise<Domain> => 
-    api.put(`${BASE_URL}/domains/${id}`, data),
+  update: async (id: string, data: DomainUpdate): Promise<Domain> => {
+    const response = await api.put(`${BASE_URL}/domains/${id}`, data);
+    return response.data;
+  },
   
-  delete: (id: string): Promise<void> => 
-    api.delete(`${BASE_URL}/domains/${id}`)
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`${BASE_URL}/domains/${id}`);
+  }
 };
 
 // Contact API
 export const contactApi = {
-  getAll: (): Promise<Contact[]> => 
-    api.get(`${BASE_URL}/contacts`),
+  getAll: async (): Promise<Contact[]> => {
+    const response = await api.get(`${BASE_URL}/contacts`);
+    return response.data;
+  },
   
-  getById: (id: string): Promise<Contact> => 
-    api.get(`${BASE_URL}/contacts/${id}`),
+  getById: async (id: string): Promise<Contact> => {
+    const response = await api.get(`${BASE_URL}/contacts/${id}`);
+    return response.data;
+  },
   
-  create: (data: ContactCreate): Promise<Contact> => 
-    api.post(`${BASE_URL}/contacts`, data),
+  create: async (data: ContactCreate): Promise<Contact> => {
+    const response = await api.post(`${BASE_URL}/contacts`, data);
+    return response.data;
+  },
   
-  update: (id: string, data: ContactUpdate): Promise<Contact> => 
-    api.put(`${BASE_URL}/contacts/${id}`, data),
+  update: async (id: string, data: ContactUpdate): Promise<Contact> => {
+    const response = await api.put(`${BASE_URL}/contacts/${id}`, data);
+    return response.data;
+  },
   
-  delete: (id: string): Promise<void> => 
-    api.delete(`${BASE_URL}/contacts/${id}`)
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`${BASE_URL}/contacts/${id}`);
+  }
 };
 
 // User API
 export const userApi = {
-  getAll: (): Promise<User[]> => 
-    api.get(`${BASE_URL}/users`),
+  getAll: async (): Promise<User[]> => {
+    const response = await api.get(`${BASE_URL}/users`);
+    return response.data;
+  },
   
-  getById: (id: string): Promise<User> => 
-    api.get(`${BASE_URL}/users/${id}`),
+  getById: async (id: string): Promise<User> => {
+    const response = await api.get(`${BASE_URL}/users/${id}`);
+    return response.data;
+  },
   
-  create: (data: UserCreate): Promise<User> => 
-    api.post(`${BASE_URL}/users`, data),
+  create: async (data: UserCreate): Promise<User> => {
+    const response = await api.post(`${BASE_URL}/users`, data);
+    return response.data;
+  },
   
-  update: (id: string, data: UserUpdate): Promise<User> => 
-    api.put(`${BASE_URL}/users/${id}`, data),
+  update: async (id: string, data: UserUpdate): Promise<User> => {
+    const response = await api.put(`${BASE_URL}/users/${id}`, data);
+    return response.data;
+  },
   
-  delete: (id: string): Promise<void> => 
-    api.delete(`${BASE_URL}/users/${id}`)
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`${BASE_URL}/users/${id}`);
+  }
 };
 
 // Extension API
 export const extensionApi = {
-  getAll: (): Promise<Extension[]> => 
-    api.get(`${BASE_URL}/extensions`),
+  getAll: async (): Promise<Extension[]> => {
+    const response = await api.get(`${BASE_URL}/extensions`);
+    return response.data;
+  },
   
-  getById: (id: string): Promise<Extension> => 
-    api.get(`${BASE_URL}/extensions/${id}`),
+  getById: async (id: string): Promise<Extension> => {
+    const response = await api.get(`${BASE_URL}/extensions/${id}`);
+    return response.data;
+  },
   
-  create: (data: ExtensionCreate): Promise<Extension> => 
-    api.post(`${BASE_URL}/extensions`, data),
+  create: async (data: ExtensionCreate): Promise<Extension> => {
+    const response = await api.post(`${BASE_URL}/extensions`, data);
+    return response.data;
+  },
   
-  update: (id: string, data: Partial<ExtensionCreate>): Promise<Extension> => 
-    api.put(`${BASE_URL}/extensions/${id}`, data),
+  update: async (id: string, data: Partial<ExtensionCreate>): Promise<Extension> => {
+    const response = await api.put(`${BASE_URL}/extensions/${id}`, data);
+    return response.data;
+  },
   
-  delete: (id: string): Promise<void> => 
-    api.delete(`${BASE_URL}/extensions/${id}`)
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`${BASE_URL}/extensions/${id}`);
+  }
 };
 
 // Extension Settings API
 export const extensionSettingApi = {
-  getAll: (): Promise<ExtensionSetting[]> => 
-    api.get(`${BASE_URL}/extension-settings`),
+  getAll: async (): Promise<ExtensionSetting[]> => {
+    const response = await api.get(`${BASE_URL}/extension-settings`);
+    return response.data;
+  },
   
-  getByExtension: (extensionId: string): Promise<ExtensionSetting[]> => 
-    api.get(`${BASE_URL}/extension-settings/extension/${extensionId}`),
+  getByExtension: async (extensionId: string): Promise<ExtensionSetting[]> => {
+    const response = await api.get(`${BASE_URL}/extension-settings/extension/${extensionId}`);
+    return response.data;
+  },
   
-  create: (data: ExtensionSettingCreate): Promise<ExtensionSetting> => 
-    api.post(`${BASE_URL}/extension-settings`, data),
+  create: async (data: ExtensionSettingCreate): Promise<ExtensionSetting> => {
+    const response = await api.post(`${BASE_URL}/extension-settings`, data);
+    return response.data;
+  },
   
-  update: (id: string, data: ExtensionSettingUpdate): Promise<ExtensionSetting> => 
-    api.put(`${BASE_URL}/extension-settings/${id}`, data),
+  update: async (id: string, data: ExtensionSettingUpdate): Promise<ExtensionSetting> => {
+    const response = await api.put(`${BASE_URL}/extension-settings/${id}`, data);
+    return response.data;
+  },
   
-  delete: (id: string): Promise<void> => 
-    api.delete(`${BASE_URL}/extension-settings/${id}`)
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`${BASE_URL}/extension-settings/${id}`);
+  }
 };
 
 // Voicemail API
 export const voicemailApi = {
-  getAll: (): Promise<Voicemail[]> => 
-    api.get(`${BASE_URL}/voicemails`),
+  getAll: async (): Promise<Voicemail[]> => {
+    const response = await api.get(`${BASE_URL}/voicemails`);
+    return response.data;
+  },
   
-  getById: (id: string): Promise<Voicemail> => 
-    api.get(`${BASE_URL}/voicemails/${id}`),
+  getById: async (id: string): Promise<Voicemail> => {
+    const response = await api.get(`${BASE_URL}/voicemails/${id}`);
+    return response.data;
+  },
   
-  create: (data: VoicemailCreate): Promise<Voicemail> => 
-    api.post(`${BASE_URL}/voicemails`, data),
+  create: async (data: VoicemailCreate): Promise<Voicemail> => {
+    const response = await api.post(`${BASE_URL}/voicemails`, data);
+    return response.data;
+  },
   
-  update: (id: string, data: VoicemailUpdate): Promise<Voicemail> => 
-    api.put(`${BASE_URL}/voicemails/${id}`, data),
+  update: async (id: string, data: VoicemailUpdate): Promise<Voicemail> => {
+    const response = await api.put(`${BASE_URL}/voicemails/${id}`, data);
+    return response.data;
+  },
   
-  delete: (id: string): Promise<void> => 
-    api.delete(`${BASE_URL}/voicemails/${id}`)
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`${BASE_URL}/voicemails/${id}`);
+  }
 };
 
 // Dialplan API
 export const dialplanApi = {
-  getAll: (): Promise<Dialplan[]> => 
-    api.get(`${BASE_URL}/dialplans`),
+  getAll: async (): Promise<Dialplan[]> => {
+    const response = await api.get(`${BASE_URL}/dialplans`);
+    return response.data;
+  },
   
-  getById: (id: string): Promise<Dialplan> => 
-    api.get(`${BASE_URL}/dialplans/${id}`),
+  getById: async (id: string): Promise<Dialplan> => {
+    const response = await api.get(`${BASE_URL}/dialplans/${id}`);
+    return response.data;
+  },
   
-  create: (data: DialplanCreate): Promise<Dialplan> => 
-    api.post(`${BASE_URL}/dialplans`, data),
+  create: async (data: DialplanCreate): Promise<Dialplan> => {
+    const response = await api.post(`${BASE_URL}/dialplans`, data);
+    return response.data;
+  },
   
-  update: (id: string, data: DialplanUpdate): Promise<Dialplan> => 
-    api.put(`${BASE_URL}/dialplans/${id}`, data),
+  update: async (id: string, data: DialplanUpdate): Promise<Dialplan> => {
+    const response = await api.put(`${BASE_URL}/dialplans/${id}`, data);
+    return response.data;
+  },
   
-  delete: (id: string): Promise<void> => 
-    api.delete(`${BASE_URL}/dialplans/${id}`)
+  delete: async (id: string): Promise<void> => {
+    await api.delete(`${BASE_URL}/dialplans/${id}`);
+  }
 };
 
 // Registration API (read-only)
 export const registrationApi = {
-  getAll: (): Promise<Registration[]> => 
-    api.get(`${BASE_URL}/registrations`),
+  getAll: async (): Promise<Registration[]> => {
+    const response = await api.get(`${BASE_URL}/registrations`);
+    return response.data;
+  },
   
-  getById: (id: string): Promise<Registration> => 
-    api.get(`${BASE_URL}/registrations/${id}`)
+  getById: async (id: string): Promise<Registration> => {
+    const response = await api.get(`${BASE_URL}/registrations/${id}`);
+    return response.data;
+  }
 };

@@ -36,9 +36,12 @@ const ExtensionManagement: React.FC = () => {
     setLoading(true);
     try {
       const data = await extensionApi.getAll();
-      setExtensions(data);
+      // Ensure data is always an array to prevent .map errors
+      setExtensions(Array.isArray(data) ? data : []);
     } catch (error) {
       message.error('Failed to fetch extensions');
+      // Set empty array on error to prevent .map errors
+      setExtensions([]);
     } finally {
       setLoading(false);
     }
@@ -47,9 +50,12 @@ const ExtensionManagement: React.FC = () => {
   const fetchDomains = async () => {
     try {
       const data = await domainApi.getAll();
-      setDomains(data);
+      // Ensure data is always an array to prevent .map errors
+      setDomains(Array.isArray(data) ? data : []);
     } catch (error) {
       message.error('Failed to fetch domains');
+      // Set empty array on error to prevent .map errors
+      setDomains([]);
     }
   };
 
