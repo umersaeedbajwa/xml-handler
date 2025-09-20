@@ -3,6 +3,7 @@ from typing import List
 from uuid import UUID
 import uuid
 from app.database import baseDB
+from app.utils.cache import invalidate_extension_cache, invalidate_domain_cache, invalidate_user_cache
 from app.models.freeswitch_models import (
     Domain, DomainCreate, DomainUpdate,
     Contact, ContactCreate, ContactUpdate,
@@ -59,14 +60,27 @@ async def update_domain(domain_uuid: UUID, domain: DomainUpdate):
     values = [str(domain_uuid)] + list(update_data.values())
     
     result = await baseDB.fetch_one(query, *values)
+    
+    # Invalidate domain cache after update
+    await invalidate_domain_cache(existing['domain_name'])
+    if 'domain_name' in update_data and update_data['domain_name'] != existing['domain_name']:
+        await invalidate_domain_cache(update_data['domain_name'])
+    
     return result
 
 @router.delete("/domains/{domain_uuid}")
 async def delete_domain(domain_uuid: UUID):
+    # Get domain info before deletion for cache invalidation
+    existing = await baseDB.fetch_one("SELECT * FROM v_domains WHERE domain_uuid = $1", str(domain_uuid))
+    if not existing:
+        raise HTTPException(status_code=404, detail="Domain not found")
+    
     query = "DELETE FROM v_domains WHERE domain_uuid = $1"
     result = await baseDB.execute(query, str(domain_uuid))
-    if result == 0:
-        raise HTTPException(status_code=404, detail="Domain not found")
+    
+    # Invalidate domain cache after deletion
+    await invalidate_domain_cache(existing['domain_name'])
+    
     return {"message": "Domain deleted successfully"}
 
 # Contact endpoints
@@ -169,14 +183,37 @@ async def update_user(user_uuid: UUID, user: UserUpdate):
     values = [str(user_uuid)] + list(update_data.values())
     
     result = await baseDB.fetch_one(query, *values)
+    
+    # Invalidate user cache after update
+    if result:
+        domain_query = "SELECT domain_name FROM v_domains WHERE domain_uuid = $1"
+        domain_info = await baseDB.fetch_one(domain_query, result['domain_uuid'])
+        
+        if domain_info:
+            # Clear cache for both old and new username if changed
+            await invalidate_user_cache(existing['username'], domain_info['domain_name'])
+            if update_data.get('username') and update_data['username'] != existing['username']:
+                await invalidate_user_cache(result['username'], domain_info['domain_name'])
+    
     return result
 
 @router.delete("/users/{user_uuid}")
 async def delete_user(user_uuid: UUID):
+    # Get user info before deletion for cache invalidation
+    existing = await baseDB.fetch_one("SELECT * FROM v_users WHERE user_uuid = $1", str(user_uuid))
+    if not existing:
+        raise HTTPException(status_code=404, detail="User not found")
+    
     query = "DELETE FROM v_users WHERE user_uuid = $1"
     result = await baseDB.execute(query, str(user_uuid))
-    if result == 0:
-        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Invalidate user cache after deletion
+    domain_query = "SELECT domain_name FROM v_domains WHERE domain_uuid = $1"
+    domain_info = await baseDB.fetch_one(domain_query, existing['domain_uuid'])
+    
+    if domain_info:
+        await invalidate_user_cache(existing['username'], domain_info['domain_name'])
+    
     return {"message": "User deleted successfully"}
 
 # Extension endpoints
@@ -214,6 +251,19 @@ async def create_extension(extension: ExtensionCreate):
     ]
     
     result = await baseDB.fetch_one(query, *values)
+    
+    # Get domain name for cache invalidation
+    domain_query = "SELECT domain_name FROM v_domains WHERE domain_uuid = $1"
+    domain_info = await baseDB.fetch_one(domain_query, str(extension.domain_uuid))
+    
+    if domain_info and result:
+        user_context = result.get('user_context', domain_info['domain_name'])
+        await invalidate_extension_cache(
+            extension=result['extension'],
+            user_context=user_context,
+            number_alias=result.get('number_alias')
+        )
+    
     return result
 
 @router.put("/extensions/{extension_uuid}", response_model=Extension)
@@ -236,14 +286,56 @@ async def update_extension(extension_uuid: UUID, extension: ExtensionUpdate):
     values = [str(extension_uuid)] + list(update_data.values())
     
     result = await baseDB.fetch_one(query, *values)
+    
+    # Invalidate extension cache after update
+    if result:
+        # Get domain name for user_context
+        domain_query = "SELECT domain_name FROM v_domains WHERE domain_uuid = $1"
+        domain_info = await baseDB.fetch_one(domain_query, result['domain_uuid'])
+        
+        if domain_info:
+            user_context = result.get('user_context', domain_info['domain_name'])
+            
+            # Clear cache for both old and new extension/alias if changed
+            await invalidate_extension_cache(
+                extension=existing['extension'],
+                user_context=existing.get('user_context', domain_info['domain_name']),
+                number_alias=existing.get('number_alias')
+            )
+            
+            # If extension number or alias changed, also clear new cache
+            if (update_data.get('extension') and update_data['extension'] != existing['extension']) or \
+               (update_data.get('number_alias') and update_data['number_alias'] != existing.get('number_alias')):
+                await invalidate_extension_cache(
+                    extension=result['extension'],
+                    user_context=user_context,
+                    number_alias=result.get('number_alias')
+                )
+    
     return result
 
 @router.delete("/extensions/{extension_uuid}")
 async def delete_extension(extension_uuid: UUID):
+    # Get extension info before deletion for cache invalidation
+    existing = await baseDB.fetch_one("SELECT * FROM v_extensions WHERE extension_uuid = $1", str(extension_uuid))
+    if not existing:
+        raise HTTPException(status_code=404, detail="Extension not found")
+    
     query = "DELETE FROM v_extensions WHERE extension_uuid = $1"
     result = await baseDB.execute(query, str(extension_uuid))
-    if result == 0:
-        raise HTTPException(status_code=404, detail="Extension not found")
+    
+    # Invalidate extension cache after deletion
+    domain_query = "SELECT domain_name FROM v_domains WHERE domain_uuid = $1"
+    domain_info = await baseDB.fetch_one(domain_query, existing['domain_uuid'])
+    
+    if domain_info:
+        user_context = existing.get('user_context', domain_info['domain_name'])
+        await invalidate_extension_cache(
+            extension=existing['extension'],
+            user_context=user_context,
+            number_alias=existing.get('number_alias')
+        )
+    
     return {"message": "Extension deleted successfully"}
 
 # Extension Settings endpoints

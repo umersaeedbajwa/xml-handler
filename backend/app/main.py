@@ -2,6 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
+import os
+from app.routers.auth_routes import router as api_router
+from app.routers.freeswitch_routes import router as freeswitch_router
+from app.database import baseDB
+from app.utils.cache import init_cache
+
 from app.routers.auth_routes import router as api_router
 from app.routers.freeswitch_routes import router as freeswitch_router
 from app.database import baseDB
@@ -16,6 +22,15 @@ logging.basicConfig(
 async def lifespan(app: FastAPI):
     # Startup
     await baseDB.connect()
+    
+    # Initialize cache with configuration from environment
+    cache_method = os.getenv("CACHE_METHOD", "file")
+    cache_location = os.getenv("CACHE_LOCATION", "/var/cache/fusionpbx")
+    cache_syslog = os.getenv("CACHE_SYSLOG", "false").lower() == "true"
+    
+    init_cache(method=cache_method, location=cache_location, syslog=cache_syslog)
+    logging.info(f"Cache initialized: method={cache_method}, location={cache_location}")
+    
     yield
     # Shutdown
     await baseDB.disconnect()
