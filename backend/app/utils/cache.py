@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class Cache:
-    def __init__(self, method: str = "file", location: str = "/var/cache/fusionpbx", syslog: bool = False):
+    def __init__(self, method: str = "file", location: str = "/var/cache/freeswitch", syslog: bool = False):
         """
         Initialize cache with specified method
         
@@ -234,11 +234,11 @@ def get_cache() -> Cache:
     global cache_instance
     if cache_instance is None:
         # Default configuration - can be overridden
-        cache_instance = Cache(method="file", location="/var/cache/fusionpbx", syslog=False)
+        cache_instance = Cache(method="file", location="/var/cache/freeswitch", syslog=False)
     return cache_instance
 
 
-def init_cache(method: str = "file", location: str = "/var/cache/fusionpbx", syslog: bool = False):
+def init_cache(method: str = "file", location: str = "/var/cache/freeswitch", syslog: bool = False):
     """Initialize cache with configuration"""
     global cache_instance
     cache_instance = Cache(method=method, location=location, syslog=syslog)

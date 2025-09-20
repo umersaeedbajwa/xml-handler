@@ -25,7 +25,7 @@ async def lifespan(app: FastAPI):
     
     # Initialize cache with configuration from environment
     cache_method = os.getenv("CACHE_METHOD", "file")
-    cache_location = os.getenv("CACHE_LOCATION", "/var/cache/fusionpbx")
+    cache_location = os.getenv("CACHE_LOCATION", "/var/cache/freeswitch")
     cache_syslog = os.getenv("CACHE_SYSLOG", "false").lower() == "true"
     
     init_cache(method=cache_method, location=cache_location, syslog=cache_syslog)

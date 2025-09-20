@@ -294,12 +294,12 @@ async def update_extension(extension_uuid: UUID, extension: ExtensionUpdate):
         domain_info = await baseDB.fetch_one(domain_query, result['domain_uuid'])
         
         if domain_info:
-            user_context = result.get('user_context', domain_info['domain_name'])
+            user_context = domain_info['domain_name']
             
             # Clear cache for both old and new extension/alias if changed
             await invalidate_extension_cache(
                 extension=existing['extension'],
-                user_context=existing.get('user_context', domain_info['domain_name']),
+                user_context=user_context,
                 number_alias=existing.get('number_alias')
             )
             
