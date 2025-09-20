@@ -17,7 +17,7 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT", "8000"))
     reload = os.getenv("RELOAD", "True").lower() == "true"
     
-    print(f"Starting Queue Manager on {host}:{port}")
+    print(f"Starting XML Handler on {host}:{port}")
     print(f"Reload mode: {reload}")
     print(f"API docs available at: http://{host}:{port}/docs")
     
