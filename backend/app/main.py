@@ -20,9 +20,7 @@ async def lifespan(app: FastAPI):
     # Shutdown
     await baseDB.disconnect()
     
-app = FastAPI(
-    lifespan=lifespan,
-    title="XML Handler API",dependencies=[], description="API for managing XML data", version="1.0.0")
+app = FastAPI(title="XML Handler API",dependencies=[], description="API for managing XML data", version="1.0.0")
 
 # Configure CORS
 app.add_middleware(
