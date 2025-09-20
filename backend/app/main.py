@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
 from app.routers.auth_routes import router as api_router
+from app.routers.freeswitch_routes import router as freeswitch_router
 from app.database import baseDB
 
 # Configure logging
@@ -33,6 +34,7 @@ app.add_middleware(
 
 # Include the API routers
 app.include_router(api_router)
+app.include_router(freeswitch_router)
 
 @app.get("/")
 def read_root():

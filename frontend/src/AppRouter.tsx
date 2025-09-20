@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AppLayout, ProtectedRoute } from './components';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import DomainsPage from './pages/DomainsPage';
+import ExtensionsPage from './pages/ExtensionsPage';
+import VoicemailsPage from './pages/VoicemailsPage';
 
 const AppRouter: React.FC = () => {
   return (
@@ -22,6 +25,11 @@ const AppRouter: React.FC = () => {
                   <Route path="/" element={<Navigate to="/dashboard" replace />} />
                   {/* Dashboard route */}
                   <Route path="/dashboard" element={<Dashboard />} />
+                  
+                  {/* FreeSWITCH Management routes */}
+                  <Route path="/domains" element={<DomainsPage />} />
+                  <Route path="/extensions" element={<ExtensionsPage />} />
+                  <Route path="/voicemails" element={<VoicemailsPage />} />
                   
                   <Route path="*" element={<Navigate to="/dashboard" replace />} />
                 </Routes>

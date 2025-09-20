@@ -20,6 +20,8 @@ import {
   UserOutlined,
   SettingOutlined,
   MonitorOutlined,
+  SoundOutlined,
+  TeamOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { useAuthStore } from '../../store/authStore';
@@ -59,6 +61,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     const path = location.pathname;
     
     if (path === '/dashboard') return 'dashboard';
+    if (path === '/domains') return 'domains';
+    if (path === '/extensions') return 'extensions';
+    if (path === '/voicemails') return 'voicemails';
     return 'dashboard';
   };
 
@@ -69,11 +74,39 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       label: 'Dashboard',
       onClick: () => navigate('/dashboard'),
     },
+    {
+      key: 'freeswitch',
+      icon: <PhoneOutlined />,
+      label: 'FreeSWITCH',
+      children: [
+        {
+          key: 'domains',
+          icon: <GlobalOutlined />,
+          label: 'Domains',
+          onClick: () => navigate('/domains'),
+        },
+        {
+          key: 'extensions',
+          icon: <TeamOutlined />,
+          label: 'Extensions',
+          onClick: () => navigate('/extensions'),
+        },
+        {
+          key: 'voicemails',
+          icon: <SoundOutlined />,
+          label: 'Voicemails',
+          onClick: () => navigate('/voicemails'),
+        },
+      ],
+    },
   ];
 
   const getBreadcrumbText = () => {
     const path = location.pathname;
     if (path === '/dashboard') return 'Pages / Dashboard';
+    if (path === '/domains') return 'FreeSWITCH / Domains';
+    if (path === '/extensions') return 'FreeSWITCH / Extensions';
+    if (path === '/voicemails') return 'FreeSWITCH / Voicemails';
     return 'Pages / Dashboard';
   };
 
