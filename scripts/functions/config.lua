@@ -204,10 +204,10 @@ function load_config()
 
 	--set the debug options
 	debug = {}
-	debug.params = false;
-	debug.sql = false;
-	debug.xml_request = false;
-	debug.xml_string = false;
+	debug.params = true;
+	debug.sql = true;
+	debug.xml_request = true;
+	debug.xml_string = true;
 end
 
 --autoload the configuration
