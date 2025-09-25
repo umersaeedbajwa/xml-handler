@@ -39,9 +39,9 @@
 	xml:append([[<?xml version="1.0" encoding="UTF-8" standalone="no"?>]]);
 	xml:append([[<document type="freeswitch/xml">]]);
 	xml:append([[	<section name="directory">]]);
-	local sql = "SELECT domain_name FROM v_domains ";
+	local sql = "SELECT name FROM tenants ";
 	dbh:query(sql, function(row)
-		xml:append([[		<domain name="]] .. xml.sanitize(row.domain_name) .. [[" />]]);
+		xml:append([[		<domain name="]] .. xml.sanitize(row.name) .. [[" />]]);
 	end);
 	xml:append([[	</section>]]);
 	xml:append([[</document>]]);

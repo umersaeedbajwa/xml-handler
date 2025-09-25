@@ -17,13 +17,15 @@
 	xml:append([[	<section name="directory">]])
 
 --process when the sip profile is rescanned, sofia is reloaded, or sip redirect
-	local sql = "SELECT * FROM v_domains as d, v_extensions as e "
-	sql = sql .. "where d.domain_uuid = e.domain_uuid "
-	sql = sql .. "and (e.directory_visible = 'true' or e.directory_exten_visible='true') "
+	local sql = "SELECT fc.xml_content, t.name as domain_name "
+	sql = sql .. "FROM fs_configuration fc "
+	sql = sql .. "JOIN tenants t ON t.id = fc.tenant_id "
+	sql = sql .. "WHERE fc.config_type = 'directory' "
+	sql = sql .. "AND fc.is_active = true "
 	if domain_name then
-		sql = sql .. "and d.domain_name = :domain_name "
+		sql = sql .. "AND t.name = :domain_name "
 	else
-		sql = sql .. "order by d.domain_name "
+		sql = sql .. "ORDER BY t.name "
 	end
 	local sql_params = {domain_name = domain_name}
 
