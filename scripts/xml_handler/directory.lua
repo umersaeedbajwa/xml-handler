@@ -140,7 +140,7 @@
 
 		-- Check eather we need build dial-string. Before request dial-string FusionPBX set `dialed_extension`
 		-- variable. So if we have no such variable we do not need build dial-string.
-			dialed_extension = params:getHeader("dialed_extension");
+			dialed_extension = params:getHeader("dialed_extension") or  params:getHeader("sip_auth_username");
 			if (dialed_extension == nil) then
 				freeswitch.consoleLog("notice", "[xml_handler][directory] dialed_extension is null\n");
 				USE_FS_PATH = false;
