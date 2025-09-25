@@ -66,7 +66,9 @@
 	if (domain_uuid == nil) then
 		domain_uuid = params:getHeader("domain_uuid");
 	end
-	domain_name = params:getHeader("domain");
+	if (domain_name == nil) then
+		domain_name = params:getHeader("domain");
+	end
 	if (domain_name == nil) then
 		domain_name = params:getHeader("domain_name");
 	end
