@@ -41,7 +41,8 @@
 	xml:append([[	<section name="directory">]]);
 	local sql = "SELECT name FROM tenants ";
 	dbh:query(sql, function(row)
-		xml:append([[		<domain name="]] .. xml.sanitize(row.name) .. [[" />]]);
+		-- Add domain with alias and parse attributes for proper multi-domain support
+		xml:append([[		<domain name="]] .. xml.sanitize(row.name) .. [[" alias="true" parse="true"/>]]);
 	end);
 	xml:append([[	</section>]]);
 	xml:append([[</document>]]);

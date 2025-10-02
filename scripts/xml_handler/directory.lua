@@ -187,7 +187,8 @@
 						end
 					end
 				end
-				source = XML_STRING and "cache" or "database";
+				-- source = XML_STRING and "cache" or "database";
+				source = "database";
 			end
 
 		--show the params in the console
@@ -275,10 +276,7 @@
 				--use the pre-built XML content from fs_configuration table
 					if (continue and directory_xml_content) then
 						XML_STRING = directory_xml_content;
-
-
-
-
+						
 						--close the database connection
 							dbh:release();
 
