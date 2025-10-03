@@ -153,14 +153,15 @@
 			hostname = trim(api:execute("hostname", ""));
 
 		--set the xml array and then concatenate the array to a string
-			local xml = Xml:new();
-			xml:append([[<?xml version="1.0" encoding="UTF-8" standalone="no"?>]]);
-			xml:append([[<document type="freeswitch/xml">]]);
-			xml:append([[	<section name="dialplan" description="">]]);
-			xml:append([[		<context name="]] .. xml.sanitize(call_context) .. [[" destination_number="]] .. xml.sanitize(destination_number) .. [[" hostname="]] .. xml.sanitize(hostname) .. [[">]]);
-
 		--get the dialplan xml from fs_configuration table
 			if (context_name == 'public' and dialplan_mode == 'single') then
+				
+				local xml = Xml:new();
+				xml:append([[<?xml version="1.0" encoding="UTF-8" standalone="no"?>]]);
+				xml:append([[<document type="freeswitch/xml">]]);
+				xml:append([[	<section name="dialplan" description="">]]);
+				xml:append([[		<context name="]] .. xml.sanitize(call_context) .. [[" destination_number="]] .. xml.sanitize(destination_number) .. [[" hostname="]] .. xml.sanitize(hostname) .. [[">]]);
+
 				--get the inbound route dialplan xml for specific destination number from fs_configuration table
 				sql = "SELECT fc.xml_content "
 				sql = sql .. "FROM fs_configuration fc "
@@ -209,6 +210,15 @@
 						xml:append([[		</extension>]]);
 					end
 				end
+				
+				--set the xml array and then concatenate the array to a string
+				if (dialplan_found ~= nil and dialplan_found) then
+					xml:append([[		</context>]]);
+					xml:append([[	</section>]]);
+					xml:append([[</document>]]);
+					XML_STRING = xml:build();
+				end
+
 			else
 				--get the domain dialplan xml from fs_configuration table  
 				sql = "SELECT fc.xml_content "
@@ -243,17 +253,10 @@
 				end
 				dbh:query(sql, params, function(row)
 					dialplan_found = true;
-					xml:append(row.xml_content);
+					XML_STRING = row.xml_content;
 				end);
 			end
 
-		--set the xml array and then concatenate the array to a string
-			if (dialplan_found ~= nil and dialplan_found) then
-				xml:append([[		</context>]]);
-				xml:append([[	</section>]]);
-				xml:append([[</document>]]);
-				XML_STRING = xml:build();
-			end
 
 		--close the database connection
 			dbh:release();
