@@ -34,6 +34,7 @@ function load_config()
 	switch = {}
 	xml_handler = {}
 	cache = {}
+	debug = {}
 
 	--read the config file
 	file = io.open(config_file);
@@ -104,6 +105,13 @@ function load_config()
 			if (k == "cache.method")                then cache.method = v; end
 			if (k == "cache.location")              then cache.location = v; end
 			if (k == "cache.settings")              then cache.settings = v; end
+
+			
+			if (k == "debug.params")                 then debug.params = v; end
+			if (k == "debug.cache")                  then debug.cache = v; end
+			if (k == "debug.sql")                    then debug.sql = v; end
+			if (k == "debug.xml_request")            then debug.xml_request = v; end
+			if (k == "debug.xml_string")             then debug.xml_string = v; end
 
 			--show the array
 			--for i,v in ipairs(a) do 
@@ -202,13 +210,6 @@ function load_config()
 	settings.voicemail.storage_type = "";
 	settings.fax.storage_type = "";
 
-	--set the debug options
-	debug = {}
-	debug.params = true;
-	debug.cache = true;
-	debug.sql = true;
-	debug.xml_request = true;
-	debug.xml_string = true;
 end
 
 --autoload the configuration
