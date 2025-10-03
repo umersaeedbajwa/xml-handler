@@ -278,35 +278,35 @@
 						XML_STRING = directory_xml_content;
 						
 						--close the database connection
-							dbh:release();
+						dbh:release();
 
 						--set the cache
-							if cache.support() then
-								local key = "directory:" .. user .. "@" .. domain_name
-								if debug['cache'] then
-									freeswitch.consoleLog("notice", "[xml_handler][directory][cache] set key: " .. key .. "\n")
-								end
-								local ok, err = cache.set(key, XML_STRING, expire["directory"])
-								if debug["cache"] and not ok then
-									freeswitch.consoleLog("warning", "[xml_handler][directory][cache] set key: " .. key .. " fail: " .. tostring(err) .. "\n");
-								end
-							else
-								if debug["cache"] then
-									freeswitch.consoleLog("warning", "[xml_handler][directory][cache] not set key: " .. key .. " cache not supported\n");
-								end
+						if cache.support() then
+							local key = "directory:" .. user .. "@" .. domain_name
+							if debug['cache'] then
+								freeswitch.consoleLog("notice", "[xml_handler][directory][cache] set key: " .. key .. "\n")
 							end
+							local ok, err = cache.set(key, XML_STRING, expire["directory"])
+							if debug["cache"] and not ok then
+								freeswitch.consoleLog("warning", "[xml_handler][directory][cache] set key: " .. key .. " fail: " .. tostring(err) .. "\n");
+							end
+						else
+							if debug["cache"] then
+								freeswitch.consoleLog("warning", "[xml_handler][directory][cache] not set key: " .. key .. " cache not supported\n");
+							end
+						end
 
 						--send the xml to the console
-							if (debug["xml_string"]) then
-								local file = assert(io.open(temp_dir .. "/" .. user .. "@" .. domain_name .. ".xml", "w"));
-								file:write(XML_STRING);
-								file:close();
-							end
+						if (debug["xml_string"]) then
+							local file = assert(io.open(temp_dir .. "/" .. user .. "@" .. domain_name .. ".xml", "w"));
+							file:write(XML_STRING);
+							file:close();
+						end
 
 						--send to the console
-							if (debug["cache"]) then
-								freeswitch.consoleLog("notice", "[xml_handler] directory:" .. user .. "@" .. domain_name .. " source: database\n");
-							end
+						if (debug["cache"]) then
+							freeswitch.consoleLog("notice", "[xml_handler] directory:" .. user .. "@" .. domain_name .. " source: database\n");
+						end
 					end
 			end
 

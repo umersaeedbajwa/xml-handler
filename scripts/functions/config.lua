@@ -205,6 +205,7 @@ function load_config()
 	--set the debug options
 	debug = {}
 	debug.params = true;
+	debug.cache = true;
 	debug.sql = true;
 	debug.xml_request = true;
 	debug.xml_string = true;
