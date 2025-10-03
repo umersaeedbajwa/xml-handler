@@ -290,6 +290,10 @@
 								if debug["cache"] and not ok then
 									freeswitch.consoleLog("warning", "[xml_handler][directory][cache] set key: " .. key .. " fail: " .. tostring(err) .. "\n");
 								end
+							else
+								if debug["cache"] then
+									freeswitch.consoleLog("warning", "[xml_handler][directory][cache] not set key: " .. key .. " cache not supported\n");
+								end
 							end
 
 						--send the xml to the console
