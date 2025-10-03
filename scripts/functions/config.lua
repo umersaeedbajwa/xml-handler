@@ -128,8 +128,8 @@ function load_config()
 		database.name = database.switch.name;
 	end
 
-	freeswitch.consoleLog("notice", "Database Type: " .. database.type .. "\n");
-	freeswitch.consoleLog("notice", "Database Names: " .. database.system.name .. "\n");
+	freeswitch.consoleLog("notice", "Database Type: " .. database.type .. "\n" .. "Database Names: " .. database.system.name .. "\n");
+	freeswitch.consoleLog("notice", "Debug Settings: params:" .. debug.params .. "\n" .. "cache: " .. debug.cache .. "\n" .. "sql: " .. debug.sql .. "\n" .. "xml_request: " .. debug.xml_request .. "\n" .. "xml_string: " .. debug.xml_string .. "\n");
 	--database system dsn
 	system_dsn = {}
 	if (database.system.type == 'pgsql') then
