@@ -103,6 +103,7 @@ function load_config()
 
 			--cache settings
 			if (k == "cache.method")                then cache.method = v; end
+			if (k == "cache.redis_url")             then cache.redis_url = v; end
 			if (k == "cache.location")              then cache.location = v; end
 			if (k == "cache.settings")              then cache.settings = v; end
 

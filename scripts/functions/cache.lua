@@ -20,6 +20,7 @@ local log = require "functions.log".cache;
 
 -- get method for cache from config
 local cache_method = cache and cache.method or 'memcache'
+local cache_redis_url = cache and cache.redis_url or 'redis://localhost:6379/0'
 
 local api = api
 if not api then
@@ -121,6 +122,13 @@ function Cache.support()
   return Cache._support
 end
 
+-- Redis connection setup
+local redis
+if cache_method == "redis" then
+  local redis_lib = require "redis" -- Assuming a Redis Lua library is available
+  redis = redis_lib.connect(cache_redis_url)
+end
+
 --- Get element from cache
 --
 -- @tparam key string
@@ -140,14 +148,23 @@ function Cache.get(key)
 
   if (cache_method == "file") then
     key = key2file(key)
-    -- log.noticef('location: %s', key)
     result, err = File.read(key)
     if not result then
       err = 'NOT FOUND';
     end
   end
 
-  -- log.noticef('result: %s',  tostring(result or err))
+  if (cache_method == "redis") then
+    if redis then
+      result, err = redis:get(key)
+      if not result then
+        err = 'NOT FOUND'
+      end
+    else
+      err = 'REDIS CONNECTION FAILED'
+    end
+  end
+
   return result, err
 end
 
@@ -190,6 +207,23 @@ function Cache.set(key, value, expire)
     return ok == '+OK'
   end
 
+  if (cache_method == "redis") then
+    if redis then
+      local ok, err
+      if expire then
+        ok, err = redis:setex(key, expire, value)
+      else
+        ok, err = redis:set(key, value)
+      end
+      if not ok then
+        return nil, err
+      end
+      return true
+    else
+      return nil, 'REDIS CONNECTION FAILED'
+    end
+  end
+
   return nil, 'UNSUPPORTTED'
 end
 
@@ -219,6 +253,18 @@ function Cache.del(key)
     end
     File.remove(key .. ".tmp")
     return result, err
+  end
+
+  if (cache_method == "redis") then
+    if redis then
+      local result, err = redis:del(key)
+      if result == 0 then
+        return nil, 'NOT FOUND'
+      end
+      return result > 0, err
+    else
+      return nil, 'REDIS CONNECTION FAILED'
+    end
   end
 
   return nil, 'UNSUPPORTTED'
