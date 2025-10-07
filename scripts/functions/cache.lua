@@ -123,6 +123,8 @@ function Cache.support()
 end
 
 -- Redis connection setup
+package.path = package.path .. ";/usr/local/share/lua/5.2/?.lua"
+package.cpath = package.cpath .. ";/usr/local/lib/lua/5.2/?.so"
 local redis
 if cache_method == "redis" then
   local redis_lib = require "redis" -- Assuming a Redis Lua library is available

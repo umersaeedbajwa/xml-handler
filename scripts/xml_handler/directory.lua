@@ -187,8 +187,7 @@
 						end
 					end
 				end
-				-- source = XML_STRING and "cache" or "database";
-				source = "database";
+				source = XML_STRING and "cache" or "database";
 			end
 
 		--show the params in the console
