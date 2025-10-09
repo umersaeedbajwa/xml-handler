@@ -169,9 +169,12 @@ function Cache.get(key)
 
   if (cache_method == "redis") then
     if redis then
+      if debug['cache'] then
+        freeswitch.consoleLog("notice", "[xml_handler][directory][cache] fetching key: " .. key .. " from Redis\n")
+      end
       result, err = redis:get(key)
       if debug['cache'] then
-          freeswitch.consoleLog("notice", "[xml_handler][directory][cache] getting cache for key: " .. key .. " From " .. cache_method .. " URL :" .. cache_redis_url .. "\n" .. result .. "\n")
+        freeswitch.consoleLog("notice", "[xml_handler][directory][cache] value fetched: " .. tostring(result) .. "\n")
       end
       if not result then
         err = 'NOT FOUND'
