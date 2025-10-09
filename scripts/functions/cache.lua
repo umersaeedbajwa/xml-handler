@@ -5,6 +5,19 @@
 --   cache.set(key, value, expire)
 -- end
 --
+package.path = package.path
+  .. ';/usr/local/share/lua/5.2/?.lua'
+  .. ';/usr/local/share/lua/5.2/?/init.lua'
+  .. ';/usr/share/lua/5.2/?.lua'
+  .. ';/usr/share/lua/5.2/?/init.lua'
+  .. ';/opt/myluamods/?.lua'
+
+-- add C module (.so) search paths
+package.cpath = package.cpath
+  .. ';/usr/local/lib/lua/5.2/?.so'
+  .. ';/usr/lib/x86_64-linux-gnu/lua/5.2/?.so'
+  .. ';/usr/lib/lua/5.2/?.so'
+  .. ';/opt/myluamods/?.so'
 
 --include config.lua
 require "functions.config";
@@ -139,6 +152,9 @@ end
 function Cache.get(key)
   local result, err = nil, 'UNSUPPORTTED'
 
+  if debug['cache'] then
+      freeswitch.consoleLog("notice", "[xml_handler][directory][cache] getting cache for key: " .. key .. " From " .. cache_method .. "\n")
+  end
   if (cache_method == "memcache") then
     result, err = check_error(api:execute('memcache', 'get ' .. key2key(key)))
     if result then
