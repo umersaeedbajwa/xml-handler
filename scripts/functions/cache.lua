@@ -33,7 +33,7 @@ local log = require "functions.log".cache;
 
 -- get method for cache from config
 local cache_method = cache and cache.method or 'memcache'
-local cache_redis_url = cache and cache.redis_url or 'redis://173.212.242.112:6379/2'
+local cache_redis_url = cache and cache.redis_url or 'redis://173.212.242.112:6379'
 
 local api = api
 if not api then
