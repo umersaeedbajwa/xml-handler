@@ -153,7 +153,7 @@ function Cache.get(key)
   local result, err = nil, 'UNSUPPORTTED'
 
   if debug['cache'] then
-      freeswitch.consoleLog("notice", "[xml_handler][directory][cache] getting cache for key: " .. key .. " From " .. cache_method .. "\n")
+      freeswitch.consoleLog("notice", "[xml_handler][directory][cache] getting cache for key: " .. key .. " From " .. cache_method .. " URL :" .. cache_redis_url .. "\n")
   end
   if (cache_method == "memcache") then
     result, err = check_error(api:execute('memcache', 'get ' .. key2key(key)))
