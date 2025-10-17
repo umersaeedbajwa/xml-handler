@@ -66,11 +66,10 @@
 	if freeswitch and freeswitch.consoleLog then
 		freeswitch.consoleLog("notice", "[directory_acl] action/acl.lua generated XML for network-lists\n");
 	end
-+
-+	if (debug["xml_string"]) then
+	if (debug["xml_string"]) then
 		log.notice("XML_STRING "..XML_STRING)
 	end
-*** End Patch
+
 
 --close the database connection
 	dbh:release()
