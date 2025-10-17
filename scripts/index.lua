@@ -97,12 +97,19 @@
 
 --process the sections
 	if (XML_REQUEST["section"] == "configuration") then
-		configuration = scripts_dir.."/app/xml_handler/resources/scripts/configuration/"..XML_REQUEST["key_value"]..".lua";
-		if (debug["xml_request"]) then
-			freeswitch.consoleLog("notice", "[xml_handler] " .. configuration .. "\n");
-		end
-		if (file_exists(configuration)) then
-			dofile(configuration);
+		-- Handle acl.conf specifically
+		if (XML_REQUEST["key_value"] == "acl.conf") then
+			freeswitch.consoleLog("notice", "[xml_handler] Handling acl.conf configuration request\n");
+			dofile(scripts_dir.."/action/acl.lua");
+		else
+			-- Try the default configuration path for other configs
+			configuration = scripts_dir.."/app/xml_handler/resources/scripts/configuration/"..XML_REQUEST["key_value"]..".lua";
+			if (debug["xml_request"]) then
+				freeswitch.consoleLog("notice", "[xml_handler] " .. configuration .. "\n");
+			end
+			if (file_exists(configuration)) then
+				dofile(configuration);
+			end
 		end
 	end
 	if (XML_REQUEST["section"] == "directory") then
