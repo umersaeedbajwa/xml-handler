@@ -35,7 +35,7 @@
 	local xml = Xml:new();
 	xml:append([[<?xml version="1.0" encoding="UTF-8" standalone="no"?>]])
 	xml:append([[<document type="freeswitch/xml">]])
-	xml:append([[	<section name="configuration">]])
+	xml:append([[	<section name="directory">]])
 
 
 	-- Removed v_domains and v_extensions logic. Only generating ACL XML from fs_configuration.
@@ -62,10 +62,15 @@
 	xml:append([[	</section>]])
 	xml:append([[</document>]])
 	XML_STRING = xml:build();
-
-	if (debug["xml_string"]) then
+	-- Write a clear runtime notice so logs show this action produced the ACL XML
+	if freeswitch and freeswitch.consoleLog then
+		freeswitch.consoleLog("notice", "[directory_acl] action/acl.lua generated XML for network-lists\n");
+	end
++
++	if (debug["xml_string"]) then
 		log.notice("XML_STRING "..XML_STRING)
 	end
+*** End Patch
 
 --close the database connection
 	dbh:release()
