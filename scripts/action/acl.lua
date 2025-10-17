@@ -35,7 +35,7 @@
 	local xml = Xml:new();
 	xml:append([[<?xml version="1.0" encoding="UTF-8" standalone="no"?>]])
 	xml:append([[<document type="freeswitch/xml">]])
-	xml:append([[	<section name="directory">]])
+	xml:append([[	<section name="configuration">]])
 
 
 	-- Removed v_domains and v_extensions logic. Only generating ACL XML from fs_configuration.
